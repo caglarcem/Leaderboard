@@ -1,0 +1,31 @@
+<head>
+    <title>
+        Leaderboard
+    </title>
+</head>
+<body>
+    <div class='wrapper'>
+        <h1>Leaderboard</h1>
+        {{>underline}}
+        {{>leaderboard}}
+    </div>
+    <div class='footer'>
+        <h3>Audience</h3>
+        {{>audience}}
+    </div>
+</body>
+
+<template name='leaderboard'>
+    <br>
+    <i>{{ coach }}</i>
+    <br><br><br>
+    {{#each player}}
+        <li class='player {{selectedClass}}'>{{name}}: {{score}}</li>
+    {{/each}}
+</template>
+<template name='underline'>
+    _____________________________
+</template>
+<template name='audience'>
+    {{audienceNames}}
+</template>
