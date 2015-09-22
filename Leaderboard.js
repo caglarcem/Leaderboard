@@ -6,14 +6,18 @@ if(Meteor.isClient){
 
     Template.leaderboard.helpers({
         'player': function(){
-            return PlayersList.find();
+            return PlayersList.find({}, {sort: {score:-1, name:1}});
         },
         'coach': function(){
             return 'Coach: Salvador Guillermo Allende';
         },
         'selectedClass': function(){
-            if(Session.get('selectedPlayer') == this._id)
+            if(Session.get('selectedPlayerId') == this._id)
             return 'selected';
+        },
+        'selectedPlayer': function(){
+            var selectedPlayerId = Session.get('selectedPlayerId');
+            return PlayersList.findOne({_id: selectedPlayerId});
         }
     });
 
@@ -22,8 +26,30 @@ if(Meteor.isClient){
             console.log('You clicked something');
         },
         'click .player': function(){
-            Session.set('selectedPlayer',this._id);
+            Session.set('selectedPlayerId',this._id);
             console.log(this.name + ':' + this.score);
+        },
+        'click .increment': function(){
+            var selectedPlayerId = Session.get('selectedPlayerId');
+            PlayersList.update(selectedPlayerId, {$inc: {score: 5}});
+        },
+        'click .decrement': function(){
+            var selectedPlayerId = Session.get('selectedPlayerId');
+            PlayersList.update(selectedPlayerId, {$inc: {score: -5}});
+        },
+        'click .remove': function(){
+            PlayersList.remove(Session.get('selectedPlayerId'));
+        }
+    });
+
+    Template.addPlayerForm.events({
+        'submit form': function(event){
+            event.preventDefault();
+            var playerName = event.target.playerName.value;
+            PlayersList.insert({
+                name: playerName,
+                score: parseInt(event.target.score.value)
+            });
         }
     });
 

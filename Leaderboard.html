@@ -1,14 +1,15 @@
 <head>
     <title>
-        Leaderboard
+        Bısııııııııı!!!
     </title>
 </head>
 <body>
     <div class='wrapper'>
-        <h1>Leaderboard</h1>
+        <h1>Bısııııııııı!!!</h1>
         {{>underline}}
         {{>leaderboard}}
     </div>
+    <span>{{>addPlayerForm}}</span>
     <div class='footer'>
         <h3>Audience</h3>
         {{>audience}}
@@ -19,9 +20,25 @@
     <br>
     <i>{{ coach }}</i>
     <br><br><br>
+    {{#if selectedPlayer }}
+        <li>Selected player: {{selectedPlayer.name}}, {{selectedPlayer.score}}</li>
+    {{/if}}
+    <br><br><br>
     {{#each player}}
-        <li class='player {{selectedClass}}'>{{name}}: {{score}}</li>
+        <li class='player {{selectedClass}}'>
+            {{name}}: {{score}}
+            <span><input style='background-color: aquamarine' type='button' class='increment' value='Give 5 points'></span>
+            <span><input style='background-color: coral' type='button' class='decrement' value='Take 5 points'></span>
+            <span><input style='background-color: crimson' type='button' class='remove' value='Remove'></span>
+        </li>
     {{/each}}
+</template>
+<template name="addPlayerForm">
+    <form>
+        <input type='text' name='playerName' placeholder='Name'>
+        <input type='text' name='score' placeholder='Score'>
+        <input type='submit' value='Add Player'>
+    </form>
 </template>
 <template name='underline'>
     _____________________________
