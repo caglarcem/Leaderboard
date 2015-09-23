@@ -2,7 +2,7 @@
 PlayersList = new Mongo.Collection('players');
 
 if(Meteor.isClient){
-    console.log('Hello client!');
+    Meteor.subscribe('players');
 
     Template.leaderboard.helpers({
         'player': function(){
@@ -48,7 +48,8 @@ if(Meteor.isClient){
             var playerName = event.target.playerName.value;
             PlayersList.insert({
                 name: playerName,
-                score: parseInt(event.target.score.value)
+                score: parseInt(event.target.score.value),
+                createdBy: Meteor.userId()
             });
         }
     });
@@ -62,5 +63,7 @@ if(Meteor.isClient){
 }
 
 if(Meteor.isServer){
-    console.log('Hello server!');
+    Meteor.publish('players', function(){
+        return PlayersList.find({'createdBy': this.userId});
+    })
 }
